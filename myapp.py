@@ -1,12 +1,7 @@
 from pymongo import MongoClient
 from time import time
 from flask import Flask, jsonify
-<<<<<<< HEAD
 import requests, json, datetime, random, certifi
-=======
-from requests import request
-import json, datetime, random, certifi
->>>>>>> c5b3672959c026322fe1de632cc95c1e2bdd2c18
 app = Flask(__name__)
 
 token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzhRS0QiLCJzdWIiOiJCNEYzNVEiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcm94eSBycHJvIHJudXQgcnNsZSByYWN0IHJsb2MgcnJlcyByd2VpIHJociBydGVtIiwiZXhwIjoxNjkxMDQxNzA4LCJpYXQiOjE2NTk1MDU3MDh9.NzxJB3FZxmWDyJx44pvUZOCkqME50heLRhYWD19z1go"
