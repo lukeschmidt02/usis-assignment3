@@ -12,11 +12,11 @@ myPheader = {'Accept' : 'application/json', 'Authorization' : 'Bearer {}'.format
 client = MongoClient("mongodb+srv://Fieryluketaco:Aquarius@cluster0.thwhulr.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certifi.where())
 db = client["mydb"]
 
-temp = random.randint(60, 100)
-humidity = random.randint(60, 100)
-timestamp = time()
-retstr = {'temp':temp, 'humidity':humidity, 'timestamp':timestamp}
-db.env.insert_one(retstr)
+# temp = random.randint(60, 100)
+# humidity = random.randint(60, 100)
+# timestamp = time()
+# retstr = {'temp':temp, 'humidity':humidity, 'timestamp':timestamp}
+# db.env.insert_one(retstr)
 
 @app.route("/sensors/env", methods=["GET"])
 def get_env():
@@ -27,7 +27,7 @@ def get_env():
         retdict:dict
         retdict.update(row)
     del retdict['_id']
-    print(retdict)
+    return(retdict)
 
 
 
@@ -40,7 +40,7 @@ def get_pose():
         retdict:dict
         retdict.update(row)
     del retdict['_id']
-    print(retdict)
+    return(retdict)
 
 
 @app.route("/post/env", methods=["POST"])
