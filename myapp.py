@@ -1,7 +1,8 @@
 from pymongo import MongoClient
 from time import time
-from flask import Flask, jsonify
-import requests, json, datetime, random, certifi
+from flask import Flask, request, jsonify
+import json, datetime, random, certifi
+import requests
 app = Flask(__name__)
 
 token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzhRS0QiLCJzdWIiOiJCNEYzNVEiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcm94eSBycHJvIHJudXQgcnNsZSByYWN0IHJsb2MgcnJlcyByd2VpIHJociBydGVtIiwiZXhwIjoxNjkxMDQxNzA4LCJpYXQiOjE2NTk1MDU3MDh9.NzxJB3FZxmWDyJx44pvUZOCkqME50heLRhYWD19z1go"
@@ -36,7 +37,6 @@ def get_env():
     return(retdict)
 
 
-
 @app.route("/sensors/pose", methods=["GET"])
 def get_pose():
     rows = db.pose.find({})
@@ -51,19 +51,26 @@ def get_pose():
 
 @app.route("/post/env", methods=["POST"])
 def post_env():
-    temp = requests.get_json.get("temp")
-    humidity = requests.get_json.get("humid")
+    data = request.get_json()
+    
+    temp = data["temp"]
+    humidity = data["humid"]
+    
     timestamp = time()
-    retstr = {'temp':temp, 'humidity':humidity, 'timestamp':timestamp}
+    retstr = {'temp':temp, 'humidity':humidity, 'timestamp':timestamp, "_id": timestamp}
     db.env.insert_one(retstr)
+    return (retstr)
 
 @app.route("/post/pose", methods=["POST"])
 def post_pose():
-    presence = requests.get_json.get("presence")
-    pose = requests.get_json.get("pose")
+    data = request.get_json()
+
+    presence = data["presence"]
+    pose = data["pose"]
     timestamp = time()
-    retstr = {'presence':presence, 'pose':pose, 'timestamp':timestamp}
+    retstr = {'presence':presence, 'pose':pose, 'timestamp':timestamp, "_id": timestamp}
     db.pose.insert_one(retstr)
+    return (retstr)
 
 userurl = "https://api.fitbit.com/1/user/-/profile.json"
 userresp = requests.get(userurl, headers=myPheader).json()
