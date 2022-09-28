@@ -18,6 +18,12 @@ db = client["mydb"]
 # retstr = {'temp':temp, 'humidity':humidity, 'timestamp':timestamp}
 # db.env.insert_one(retstr)
 
+# presence = random.choice(['yes','no'])
+# pose = random.choice(['standing','sitting','reclining','laying down','moving','stretching'])
+# timestamp = time()
+# retstr = {'presence':presence, 'pose':pose, 'timestamp':timestamp}
+# db.pose.insert_one(retstr)
+
 @app.route("/sensors/env", methods=["GET"])
 def get_env():
     rows = db.env.find({})
@@ -45,16 +51,16 @@ def get_pose():
 
 @app.route("/post/env", methods=["POST"])
 def post_env():
-    temp = random.randint(60, 100)
-    humidity = random.randint(60, 100)
+    temp = requests.get_json.get("temp")
+    humidity = requests.get_json.get("humid")
     timestamp = time()
     retstr = {'temp':temp, 'humidity':humidity, 'timestamp':timestamp}
     db.env.insert_one(retstr)
 
 @app.route("/post/pose", methods=["POST"])
 def post_pose():
-    presence = random.choice(['yes','no'])
-    pose = random.choice(['standing','sitting','reclining','laying down','moving','stretching'])
+    presence = requests.get_json.get("presence")
+    pose = requests.get_json.get("pose")
     timestamp = time()
     retstr = {'presence':presence, 'pose':pose, 'timestamp':timestamp}
     db.pose.insert_one(retstr)
