@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from time import time
-from flask import Flask, request, jsonify
-import requests
+from flask import Flask, jsonify
+from requests import request
 import json, datetime, random, certifi
 app = Flask(__name__)
 
