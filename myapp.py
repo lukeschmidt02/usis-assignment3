@@ -1,8 +1,12 @@
 from pymongo import MongoClient
 from time import time
 from flask import Flask, jsonify
+<<<<<<< HEAD
+import requests, json, datetime, random, certifi
+=======
 from requests import request
 import json, datetime, random, certifi
+>>>>>>> c5b3672959c026322fe1de632cc95c1e2bdd2c18
 app = Flask(__name__)
 
 token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzhRS0QiLCJzdWIiOiJCNEYzNVEiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcm94eSBycHJvIHJudXQgcnNsZSByYWN0IHJsb2MgcnJlcyByd2VpIHJociBydGVtIiwiZXhwIjoxNjkxMDQxNzA4LCJpYXQiOjE2NTk1MDU3MDh9.NzxJB3FZxmWDyJx44pvUZOCkqME50heLRhYWD19z1go"
@@ -52,24 +56,22 @@ def get_pose():
 
 @app.route("/post/env", methods=["POST"])
 def post_env():
-    temp = request.get_json.get("temp")
-    humidity = request.get_json.get("humid")
+    temp = requests.get_json.get("temp")
+    humidity = requests.get_json.get("humid")
     timestamp = time()
     retstr = {'temp':temp, 'humidity':humidity, 'timestamp':timestamp}
     db.env.insert_one(retstr)
-    return jsonify(retstr)
 
 @app.route("/post/pose", methods=["POST"])
 def post_pose():
-    presence = request.get_json.get("presence")
-    pose = request.get_json.get("pose")
+    presence = requests.get_json.get("presence")
+    pose = requests.get_json.get("pose")
     timestamp = time()
     retstr = {'presence':presence, 'pose':pose, 'timestamp':timestamp}
     db.pose.insert_one(retstr)
-    return jsonify(retstr)
 
 userurl = "https://api.fitbit.com/1/user/-/profile.json"
-userresp = request.get(userurl, headers=myPheader).json()
+userresp = requests.get(userurl, headers=myPheader).json()
 @app.route("/name", methods=["GET"])
 def get_name():
     global name
@@ -79,7 +81,7 @@ def get_name():
 
 
 hearturl  = "https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1min.json"
-heartresp = request.get(hearturl, headers=myPheader).json()
+heartresp = requests.get(hearturl, headers=myPheader).json()
 @app.route("/heartrate/last", methods=["GET"])
 def get_last_heartrate():
     heart_rate = heartresp['activities-heart-intraday']['dataset'][-1]['value']
@@ -95,8 +97,8 @@ def get_last_heartrate():
 
 stepsurl = "https://api.fitbit.com/1/user/-/activities/steps/date/today/1d.json"
 stepstimeurl = "https://api.fitbit.com/1/user/-/activities/steps/date/today/1d/1min.json"
-stepsresp = request.get(stepsurl, headers=myPheader).json()
-stepstimeresp = request.get(stepstimeurl, headers=myPheader).json()
+stepsresp = requests.get(stepsurl, headers=myPheader).json()
+stepstimeresp = requests.get(stepstimeurl, headers=myPheader).json()
 @app.route("/steps/last", methods=["GET"])
 def get_last_steps():
     steps = stepsresp["activities-steps"][0]["value"]
@@ -112,7 +114,7 @@ def get_last_steps():
 @app.route("/sleep/<date>")
 def sleep_stages(date):
     sleepurl = "https://api.fitbit.com/1.2/user/-/sleep/date/" + date + ".json"
-    sleepresp = request.get(sleepurl, headers=myPheader).json()
+    sleepresp = requests.get(sleepurl, headers=myPheader).json()
 
     try:
         deep = sleepresp["summary"]["stages"]["deep"]
@@ -129,7 +131,7 @@ def sleep_stages(date):
 @app.route("/activity/<date>")
 def activity_stages(date):
     myurl = "https://api.fitbit.com/1/user/-/activities/date/" + date + ".json"
-    resp = request.get(myurl, headers=myheader).json()
+    resp = requests.get(myurl, headers=myheader).json()
 
     sedentary = resp["summary"]["sedentaryMinutes"]
     light = resp["summary"]["lightlyActiveMinutes"]
